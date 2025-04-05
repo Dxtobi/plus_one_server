@@ -1,13 +1,15 @@
 
-// routes/gigRoutes.js
+
 import { Router } from 'express';
-import { createGig, completeGig } from '../controllers/gigController';
-import authenticate from '../middleware/authenticate';
+import { createGig, completeGig, getGigs } from '../controllers/gigController.js';
+import authenticate from '../middleware/authenticate.js';
 
 const router = Router();
 
+router.get('/', authenticate, getGigs);
+
 router.post('/', authenticate, createGig);
-router.post('/:id/complete', authenticate, completeGig);
+router.put('/:id/complete', authenticate, completeGig);
 
 export default router;
 
