@@ -40,11 +40,16 @@ export async function login(req, res) {
 
 export async function get_my_profile(req, res) {
   try {
-    const user = await UserSchema.findById(req?.user?.id).select('-password');
+    const user = await UserSchema.findById(req?.user?.id).select('-password').lean();
+    const user_ = {
+      point_balance_ngn:user.points * 10,
+      ...user
+    }
+  
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.status(200).json(user);
+    res.status(200).json(user_);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

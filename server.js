@@ -7,6 +7,10 @@ import { config } from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import gigRoutes from './routes/gigRoutes.js';
 import userRoutes from './routes/usersRoutes.js';
+import transactionRoutes from './routes/transactionsRoutes.js';
+import paymentRoutes from './routes/payments.js';
+
+
 import os from 'os';
 
 
@@ -23,12 +27,12 @@ connect(process.env.MONGO_URI)
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/wallet', transactionRoutes);
 app.use('/api/gigs', gigRoutes);
+app.use('/api/payment', paymentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  
   const networkInterfaces = os.networkInterfaces();
   Object.keys(networkInterfaces).forEach((interfaceName) => {
     networkInterfaces[interfaceName].forEach((iface) => {
@@ -37,6 +41,8 @@ app.listen(PORT, () => {
       }
     });
   });
+  console.log(`Server running on port ${PORT}`);
+  
 });
 
 
